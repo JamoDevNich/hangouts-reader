@@ -1,88 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<title>Hangouts.json Reader</title>
 		<meta charset="UTF-8" />
 
 		<!-- Styles -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="hangouts.css">
 		<style type="text/css">
-		.btn-file {
-			position: relative;
-			overflow: hidden;
-		}
-		.btn-file input[type=file] {
-			position: absolute;
-			top: 0;
-			right: 0;
-			min-width: 100%;
-			min-height: 100%;
-			font-size: 100px;
-			text-align: right;
-			filter: alpha(opacity=0);
-			opacity: 0;
-			outline: none;
-			background: white;
-			cursor: inherit;
-			display: block;
-		}
-		.main-row{
-			margin-top: 40px;
-		}
-		.thumb{
-			width:100px;
-			height: auto;
-		}
-		.txt{
-			white-space: pre-wrap;
-			border: 1px solid #ddd;
-			border-radius: 4px;
-			padding: 14px;
-			background: #F5F5F5;
-		}
-		.emoji{
-			width: 15px;
-		}
-		h3{
-			margin-top: 0;
-		}
+			.thumb{	width:200px; height: auto }
+			.emoji{	width: 15px }
+			.x-section-title{ text-transform: uppercase; font-weight: bold; position: sticky; top: 0; z-index: 2 }
 		</style>
 	</head>
-	<body>
+	<body style="overflow: scroll">
 
 		<div class="container-fluid main">
-			<h1>Hangouts.json Reader</h1>
 
-			<form class="form-inline">
-				Select your Hangouts.json file:
-				<div class="input-group">
-					<span class="input-group-btn">
-						<span class="btn btn-primary btn-file">
-							Browse&hellip; <input id="file-upload" type="file" multiple>
-						</span>
-					</span>
-					<input type="text" class="form-control file-name" readonly>
-				</div>
-			</form>
+			<div class="p-1 delete_for_print">
+				<form class="form-inline d-flex flex-column flex-md-row">
 
-			<div class="row main-row">
-				<div class="col-md-3">
+					<div class="form-group m-2">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<label class="btn btn-primary">
+									Browse&hellip; <input id="file-upload" type="file" accept="application/json" hidden>
+								</label>
+							</div>
+							<input type="text" class="form-control file-name" placeholder="Select Hangouts.json..." readonly>
+						</div>
+					</div>
+
+					<div class="form-group m-2">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Show messages since&hellip;</span>
+							</div>
+							<input class="form-control" id="date-begin" type="date">
+						</div>
+					</div>
+
+					<div class="form-group m-2">
+						<div class="input-group">
+
+							<div class="btn-group btn-group-toggle" data-toggle="buttons">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Chat display style</span>
+								</div>
+								<label class="btn btn-secondary active">
+									<input type="radio" name="options" id="hangout-format" autocomplete="off" checked> Bubbles
+								</label>
+								<label class="btn btn-secondary">
+									<input type="radio" name="options" id="option2" autocomplete="off"> List
+								</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group m-2">
+						<input class="btn btn-secondary" id="prep_print" type="submit" value="View Printable format">
+					</div>
+				</form>
+			</div>
+
+			<div class="row">
+				<div class="col-md-3 mt-3 delete_for_print">
 					<ul class="list-group convo-list">
-
+						<li class="list-group-item disabled small x-section-title" id="conversations-title">Conversations</li>
 					</ul>
 				</div>
-				<div class="col-md-9">
-					<div class="txt"><h3>How to use:</h3>Visit <a href="https://www.google.com/settings/takeout" target="_blank">Google Takeout</a> then click "Select none" and only check the box next to Hangouts.
-Within a few minutes or so you will recieve a zip file with Hangouts.json inside it.
-Extract the file and choose it above.  if you have a very large chat history it can take a few minutes to load the file.
 
-Don't worry, everything here is done clientside so there's no risk of your chat history being sent anywhere.
-You can view the source code <a href="https://github.com/Jessecar96/hangouts-reader" target="_blank">here</a> if you want to make sure.  You can even just download this HTML file and run it in your browser locally.</div>
+				<div class="col-md-9 mt-3">
+					<div class="list-group-item disabled small x-section-title" id="chat-name">Chat Window</div>
+					<div class="txt border rounded-bottom p-3">
+						<h2 class="text-center p-2">Hangouts.json Reader Improved</h2>
+						<span>
+							Hangouts.json Reader is an entirely client-side viewer for Hangouts conversations. The source code is available <a href="https://github.com/JamoDevNich/hangouts-reader" target="_blank">here</a> on GitHub.
+						</span>
+						<h4 class="mt-4 mb-2">Changes</h4>
+						<span>
+							This version of the reader only supports the updated Hangouts takeout format. The original version is available <a href="https://github.com/Jessecar96/hangouts-reader" target="_blank">here</a> for viewing the older Hangouts takeout format.
+						</span>
+						<h4 class="mt-4 mb-2">Using the reader</h4>
+						<ul>
+							<li>
+								Visit <a href="https://www.google.com/settings/takeout" target="_blank">Google Takeout</a>, and ensure only the Hangouts option is ticked.
+							</li>
+							<li>
+								Once you have downloaded the zip file, open it and locate the <code>Hangouts.json</code> file.
+							</li>
+							<li>
+								Upload the file onto this HTML document. Large chat backups (>50MB) may take a few minutes to process.
+							</li>
+							<li>
+								The area on the left will populate with all your chats. Any selected chat will appear here.
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
-
 	</body>
+
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/1.2.1/twemoji.min.js"></script>
@@ -92,14 +111,19 @@ You can view the source code <a href="https://github.com/Jessecar96/hangouts-rea
 	var Conversations = {};
 	var all_participants = {};
 
-	$(document).on('change', '.btn-file :file', function() {
+	$(document).on('change', '#file-upload', function() {
 		var input    = $(this),
 			numFiles = input.get(0).files ? input.get(0).files.length : 1,
 			label    = input.val().replace(/\\/g, '/').replace(/.*\//, '');
 		input.trigger('fileselect', [numFiles, label]);
 	});
 
-	$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+	$("#prep_print").click(function() {
+		$('body').css("overflow","visible");
+		$('.delete_for_print').remove();
+	});
+
+	$('#file-upload').on('fileselect', function(event, numFiles, label) {
 		$('.file-name').val(label);
 
 		// Process file
@@ -119,10 +143,11 @@ You can view the source code <a href="https://github.com/Jessecar96/hangouts-rea
 	});
 
 	function processData() {
-
 		// First we want to get all participants, so we loop fully once
-		for(key in Hangouts['conversation_state']) {
-			var conversation = Hangouts['conversation_state'][key]['conversation_state']['conversation'];
+		for(key in Hangouts['conversations']) {
+			var conversation = Hangouts['conversations'][key]['conversation']['conversation'];
+
+            var s = 'Getting participants from #' + key + ':';
 
 			// Get all participants
 			for(person_key in conversation['participant_data']){
@@ -131,17 +156,23 @@ You can view the source code <a href="https://github.com/Jessecar96/hangouts-rea
 
 				if(!person['fallback_name'] || person['fallback_name'] == null) continue;
 
+                s += ' ' + person['fallback_name'];
+
 				if(!all_participants[gaia_id])
 					all_participants[gaia_id] = person['fallback_name'];
 			}
 
+            console.log(s);
+
 		}
 
-		for(key in Hangouts['conversation_state']) {
+		$('#conversations-title').append(' ('+Hangouts['conversations'].length+')');
 
-			var conversation_state = Hangouts['conversation_state'][key];
-			var id = conversation_state['conversation_id']['id'];
-			var conversation = conversation_state['conversation_state']['conversation'];
+		for(key in Hangouts['conversations']) {
+
+			var conversation_state = Hangouts['conversations'][key];
+			var id = conversation_state['conversation']['conversation_id']['id'];
+			var conversation = conversation_state['conversation']['conversation'];
 
 			// Find participants
 			var participants = [], participants_obj = {};
@@ -162,13 +193,15 @@ You can view the source code <a href="https://github.com/Jessecar96/hangouts-rea
 			}
 			var participants_string = participants.join(", ");
 
+            console.log('Parsing #' + key + ': ' + participants_string);
+
 			// Add to list
-			$(".convo-list").append("<a href=\"javascript:void(0);\" onclick=\"switchConvo('"+id+"')\" class=\"list-group-item\">" + participants_string + "</a>");
+			$(".convo-list").append("<a href=\"javascript:void(0);\" onclick=\"switchConvo('"+id+"', '"+participants_string+"')\" class=\"list-group-item small\">" + participants_string + "</a>");
 
 			// Parse events
 			var events = [];
-			for(event_key in conversation_state['conversation_state']['event']){
-				var convo_event = conversation_state['conversation_state']['event'][event_key];
+			for(event_key in conversation_state['events']){
+				var convo_event = conversation_state['events'][event_key];
 				var timestamp = convo_event['timestamp'];
 				var msgtime = formatTimestamp(timestamp);
 				var sender = convo_event['sender_id']['gaia_id'];
@@ -189,7 +222,7 @@ You can view the source code <a href="https://github.com/Jessecar96/hangouts-rea
 							var attachment = convo_event['chat_message']['message_content']['attachment'][attach_key];
 							console.log(attachment);
 							if(attachment['embed_item']['type'][0] == "PLUS_PHOTO"){
-								message += "\n<a target='blank' href='" + attachment['embed_item']['embeds.PlusPhoto.plus_photo']['url'] + "'><img class='thumb' src='" + attachment['embed_item']['embeds.PlusPhoto.plus_photo']['thumbnail']['image_url'] + "' /></a>";
+								message += "\n<a target='blank' href='" + attachment['embed_item']['plus_photo']['url'] + "'><img class='thumb' src='" + attachment['embed_item']['plus_photo']['thumbnail']['image_url'] + "' /></a>";
 							}
 						}
 					}
@@ -213,19 +246,113 @@ You can view the source code <a href="https://github.com/Jessecar96/hangouts-rea
 		}
 	}
 
-	function switchConvo(id){
-		$('.txt').text('');
-		for(var event_id in Conversations[id]){
-			var convo_event = Conversations[id][event_id];
-			$('.txt').append(convo_event.msgtime + ": " + convo_event.sender + ": " + convo_event.message + "\n");
+
+
+	function switchConvo(id, participants){
+		if (participants != null) {
+			setChatName(participants);
 		}
+
+		$('.txt').text('');
+
+		var current_writer = "N/A";
+
+		var flts = ["right", "left"];
+		var colors = ["#f3f3f3", "#94D9FF"];
+		var idx = 0;
+		var last_timestamp = 0;
+		var last_msgtime = "";
+		var buffer = "";
+		var convo_event;
+
+		function writeBlock(writeTime) {
+			var color = colors[idx];
+			var flt = flts[idx];
+			var appnd = '<div class="tk TmwRj pj GjkoZd" style="clear: both;" id=":i0.mw">' +
+				'		<div class="Tn" id=":i0.ma">' +
+				'			<div class="KL" style="float: ' + flt + '">' +
+				'				<div class="PD IF">' +
+				'					<div class="KRQuhe" style="background-color: '+color+'"></div>' +
+				'					<div class="JL" id=":ie.co">' +
+				buffer +
+				'                   </div></div></div>';
+			if (writeTime) {
+				appnd += '			<div class="TlvAYc">' +
+				'				<span style="float: '+flt+'; text-align: '+flt+'" aria-label="'+last_msgtime+'" class="sV" title="11/11/17, 7:25 AM">'+ last_msgtime + '</span></div>';
+			}
+			appnd += '<div class="TR"></div></div></div>';
+			$('.txt').append( appnd );
+			buffer = "";
+		}
+
+		var newConvo;
+
+		var startAt = $("#date-begin").val();
+		if (startAt != "") startAt = +new Date(startAt)*1000;
+
+		var rawFormat = ! $("#hangout-format").is(":checked");
+		console.log("rawFormat = "+rawFormat);
+
+		$(".txt").css("white-space", rawFormat ? "pre-wrap":"normal");
+
+		for(var event_id in Conversations[id]){
+			convo_event = Conversations[id][event_id];
+			if (convo_event.timestamp > startAt) {
+				if (rawFormat) {
+					$('.txt').append(convo_event.msgtime + ": " + convo_event.sender + ": " + convo_event.message + "\n");
+				} else {
+					newConvo = convo_event.timestamp - last_timestamp > 600000000;
+					if (current_writer != convo_event.sender) {
+						writeBlock(newConvo);
+						idx = (idx+1)%2;
+					} else if (newConvo) {
+						writeBlock(true);
+					}
+					current_writer = convo_event.sender;
+					last_timestamp = convo_event.timestamp;
+					last_msgtime = convo_event.msgtime;
+					buffer += '<div class="Mu SP" data-tooltip="'+convo_event.msgtime+'" id=":ip.ma">' +
+					'<span class="tL8wMe EMoHub" dir="ltr" id=":ip.co" style="text-align: left;">' + convo_event.message +'</span></div>';
+				}
+			}
+		}
+
+		if (buffer != "") {
+			writeBlock(true);
+		}
+	}
+
+	function formatEvent(convo_event) {
+		return convo_event.msgtime + ": " + convo_event.sender + ": " + convo_event.message + "\n";
 	}
 
 	function zeroPad(string) {
 		return (string < 10) ? "0" + string : string;
 	}
 
+	function setChatName(string) {
+		$('#chat-name').html(string);
+	}
+
+	var monthNames = [
+    "Jan", "Feb", "Mar",
+    "Apr", "May", "Jun", "Jul",
+    "Aug", "Sep", "Oct",
+    "Nov", "Dec"
+  ];
 	function formatTimestamp(timestamp) {
+	var date = new Date(timestamp/1000);
+	  var day = date.getDate();
+	  var monthIndex = date.getMonth();
+	  var year = date.getFullYear();
+
+	  var formattedDate = monthNames[monthIndex] + ' ' + day;
+	  var hours = (date.getHours());
+		var minutes = zeroPad(date.getMinutes());
+		var formattedTime = hours + ":" + minutes;
+		return formattedDate + ", " + formattedTime;
+
+	// Initial
 		var d = new Date(timestamp/1000);
 		var formattedDate = d.getFullYear() + "-" +
 		    zeroPad(d.getMonth() + 1) + "-" +

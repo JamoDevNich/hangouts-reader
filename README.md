@@ -1,7 +1,12 @@
-# Hangouts.json Reader
+# Hangouts.json Reader Improved
 A javascript based parser for a Google Hangouts chat history JSON file
 
 https://jessecar96.github.io/hangouts-reader/
+
+![Image showing reader screenshot](https://i.imgur.com/d75AghM.png)
+
+## Note
+This version only parses the newer Hangouts.json format. To parse an older version, use the version in the original repository.
 
 ## Features
 - Read all hangouts conversations and quickly switch between them.
